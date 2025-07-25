@@ -5,49 +5,56 @@ import Text "mo:base/Text";
 import Array "mo:base/Array";
 import Iter "mo:base/Iter";
 
-actor {
-  public query func greet(name : Text) : async Text {
-    return "Hello, " # name # "!";
-  };
-
+actor class IPBlock() = this {
+  // Type definitions
   type Geo = {
-    country: Text;
-    city: Text;
-    isp: Text;
-    lat: Float;
-    lon: Float;
+    country : Text;
+    city : Text;
+    isp : Text;
+    lat : Float;
+    lon : Float;
   };
 
   type LoginLog = {
-    email: Text;
-    principal: Text;
-    ip: Text;
-    timestamp: Nat;
-    device: Text;
-    geo: Geo;
-    isAnomalous: Bool;
+    email : Text;
+    principal : Text;
+    ip : Text;
+    timestamp : Nat;
+    device : Text;
+    geo : Geo;
+    isAnomalous : Bool;
   };
 
   type LogEntry = {
-    ip: Text;
-    location: Text;
-    device: Text;
-    timestamp: Int;
-    isAnomalous: Bool;
+    ip : Text;
+    location : Text;
+    device : Text;
+    timestamp : Int;
+    isAnomalous : Bool;
   };
 
-  var logsMap : TrieMap.TrieMap<Text, Buffer.Buffer<LoginLog>> = TrieMap.TrieMap(Text.equal, Text.hash);
-  var userLogs : TrieMap.TrieMap<Principal, Buffer.Buffer<LogEntry>> = TrieMap.TrieMap(Principal.equal, Principal.hash);
+  type User = {
+    email : Text;
+    password : Text;
+  };
 
+  // Storage
+  var logsMap = TrieMap.TrieMap<Text, Buffer.Buffer<LoginLog>>(Text.equal, Text.hash);
+  var userLogs = TrieMap.TrieMap<Principal, Buffer.Buffer<LogEntry>>(Principal.equal, Principal.hash);
+  var users = TrieMap.TrieMap<Text, User>(Text.equal, Text.hash);
+
+  // Admin credentials
   let adminUser : Text = "admin";
   let adminPass : Text = "admin123";
 
-  public shared func log_login(log: LoginLog) : async () {
+  // Login logging function
+  public shared func log_login(log : LoginLog) : async () {
     let key = if (log.principal != "") log.principal else log.email;
     let buf = switch (logsMap.get(key)) {
       case (?b) b;
       case null Buffer.Buffer<LoginLog>(0);
     };
+    
     var anomalous = false;
     if (buf.size() > 0) {
       let prev = buf.get(buf.size() - 1);
@@ -56,7 +63,8 @@ actor {
       if (dist > 2.0) anomalous := true;
       if (prev.geo.country != log.geo.country) anomalous := true;
     };
-    let newLog = {
+    
+    let newLog : LoginLog = {
       email = log.email;
       principal = log.principal;
       ip = log.ip;
@@ -65,11 +73,13 @@ actor {
       geo = log.geo;
       isAnomalous = anomalous;
     };
+    
     buf.add(newLog);
     logsMap.put(key, buf);
   };
 
-  public query func getUserLogs(email: Text, principal: Text) : async [LoginLog] {
+  // Query functions
+  public query func getUserLogs(email : Text, principal : Text) : async [LoginLog] {
     let key = if (principal != "") principal else email;
     return switch (logsMap.get(key)) {
       case (?buf) Buffer.toArray(buf);
@@ -77,7 +87,7 @@ actor {
     };
   };
 
-  public query func queryPublicLogs(principal: Text) : async [LoginLog] {
+  public query func queryPublicLogs(principal : Text) : async [LoginLog] {
     return switch (logsMap.get(principal)) {
       case (?buf) Buffer.toArray(buf);
       case null [];
@@ -93,15 +103,16 @@ actor {
         }
       }
     };
-    return result;
+    result;
   };
 
-  public query func adminLogin(username: Text, password: Text) : async Bool {
-    return username == adminUser and password == adminPass;
+  // Admin functions
+  public query func adminLogin(username : Text, password : Text) : async Bool {
+    username == adminUser and password == adminPass;
   };
 
   public query func getTotalUsers() : async Nat {
-    return logsMap.size();
+    logsMap.size();
   };
 
   public query func getTotalLogs() : async Nat {
@@ -109,7 +120,7 @@ actor {
     for ((_, buf) in logsMap.entries()) {
       total += buf.size();
     };
-    return total;
+    total;
   };
 
   public query func getAnomalyCount() : async Nat {
@@ -121,7 +132,7 @@ actor {
         }
       }
     };
-    return count;
+    count;
   };
 
   public query func getAllAnomalies() : async [LoginLog] {
@@ -133,23 +144,27 @@ actor {
         }
       }
     };
-    return result;
+    result;
   };
 
-  public shared func recordLogin(userPrincipal: Principal, ip: Text, location: Text, device: Text, timestamp: Int) : async () {
+  // User login tracking
+  public shared func recordLogin(userPrincipal : Principal, ip : Text, location : Text, device : Text, timestamp : Int) : async () {
     let buf = switch (userLogs.get(userPrincipal)) {
       case (?b) b;
       case null Buffer.Buffer<LogEntry>(0);
     };
+    
     let prevIPs = Buffer.Buffer<Text>(0);
     let size = buf.size();
     let start = if (size > 5) size - 5 else 0;
+    
     if (size > 0 and start <= size - 1) {
       let end = size - 1;
       for (i in Iter.range(start, end)) {
         prevIPs.add(buf.get(i).ip);
       };
     };
+    
     let anomalous = await isAnomalousLogin(ip, Buffer.toArray(prevIPs));
     let entry : LogEntry = {
       ip = ip;
@@ -158,29 +173,48 @@ actor {
       timestamp = timestamp;
       isAnomalous = anomalous;
     };
+    
     buf.add(entry);
     userLogs.put(userPrincipal, buf);
   };
 
-  public shared query func getLoginHistory(userPrincipal: Principal) : async [LogEntry] {
+  public shared query func getLoginHistory(userPrincipal : Principal) : async [LogEntry] {
     return switch (userLogs.get(userPrincipal)) {
       case (?buf) Buffer.toArray(buf);
       case null [];
     };
   };
 
-  public shared query func isAnomalousLogin(newIP: Text, previousIPs: [Text]) : async Bool {
+  public shared query func isAnomalousLogin(newIP : Text, previousIPs : [Text]) : async Bool {
     for (ip in previousIPs.vals()) {
-      if (ip == newIP) { return false };
+      if (ip == newIP) return false;
     };
-    return true;
+    true;
   };
 
-  public shared func notifyAnomaly(user: Principal, message: Text) : async Text {
-    return "Notifikasi untuk " # Principal.toText(user) # ": " # message;
+  // Notification system
+  public shared func notifyAnomaly(user : Principal, message : Text) : async Text {
+    "Notifikasi untuk " # Principal.toText(user) # ": " # message;
   };
 
-  public shared func uploadToIPFS(logData: Text) : async Text {
-    return "ipfs://dummyhash/" # logData;
-  }
-}
+  public shared func uploadToIPFS(logData : Text) : async Text {
+    "ipfs://dummyhash/" # logData;
+  };
+
+  // User management
+  public shared func registerUser(email : Text, password : Text) : async Bool {
+    if (users.get(email) != null) {
+      false;
+    } else {
+      users.put(email, { email = email; password = password });
+      true;
+    };
+  };
+
+  public shared func validateUser(email : Text, password : Text) : async Bool {
+    switch (users.get(email)) {
+      case (?user) user.password == password;
+      case null false;
+    };
+  };
+};

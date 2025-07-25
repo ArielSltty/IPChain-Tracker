@@ -4,6 +4,9 @@ import AdminDashboard from './AdminDashboard';
 import Audit from './Audit';
 import History from './History';
 import { ipblock_backend } from 'declarations/ipblock_backend';
+import Header from "./Header";
+import { AuthClient } from "@dfinity/auth-client";
+import ThemeToggle from "./ThemeToggle";
 
 
 function App() {
@@ -27,6 +30,12 @@ function App() {
   const [adminPass, setAdminPass] = useState('');
   const [stats, setStats] = useState({ users: 0, logs: 0, anomalies: 0 });
   const [allAnomalies, setAllAnomalies] = useState([]);
+  const [authClient, setAuthClient] = useState(null);
+  const [showRegister, setShowRegister] = useState(false);
+
+  useEffect(() => {
+    AuthClient.create().then(setAuthClient);
+  }, []);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -85,30 +94,42 @@ function App() {
     fetchHistory(email, '');
   }
 
-  // Mock Internet Identity login
+  // Internet Identity login asli
   async function handleIIlogin() {
-    // Replace with real ICP login flow
-    const principal = 'mock-principal';
-    setUser(principal);
-    setPrincipal(principal);
-    setLoggedIn(true);
-    const ip = await fetchIP();
-    const geo = await fetchGeo(ip);
-    await ipblock_backend.log_login({
-      email: '',
-      principal,
-      ip,
-      timestamp: Date.now(),
-      device: navigator.userAgent,
-      geo: {
-        country: geo.country_name,
-        city: geo.city,
-        isp: geo.org,
-        lat: geo.latitude,
-        lon: geo.longitude,
+    if (!authClient) return;
+    await authClient.login({
+      identityProvider:
+        process.env.DFX_NETWORK === "ic"
+          ? "https://identity.ic0.app/#authorize"
+          : "http://localhost:4943?canisterId=rdmx6-jaaaa-aaaaa-aaadq-cai#authorize",
+      onSuccess: async () => {
+        const identity = authClient.getIdentity();
+        const principal = identity.getPrincipal().toText();
+        setUser(principal);
+        setPrincipal(principal);
+        setLoggedIn(true);
+        const ip = await fetchIP();
+        const geo = await fetchGeo(ip);
+        await ipblock_backend.log_login({
+          email: '',
+          principal,
+          ip,
+          timestamp: Date.now(),
+          device: navigator.userAgent,
+          geo: {
+            country: geo.country_name,
+            city: geo.city,
+            isp: geo.org,
+            lat: geo.latitude,
+            lon: geo.longitude,
+          },
+        });
+        fetchHistory('', principal);
       },
+      onError: (err) => {
+        alert("Internet Identity not available on local replica. Use mainnet or deploy II canister locally.");
+      }
     });
-    fetchHistory('', principal);
   }
 
   async function handleAuditSearch(e) {
@@ -128,6 +149,19 @@ function App() {
       const anomalies = await ipblock_backend.getAnomalyCount();
       setStats({ users, logs, anomalies });
       setAllAnomalies(await ipblock_backend.getAllAnomalies());
+    }
+  }
+
+  // Registration logic
+  async function handleRegister(email, password) {
+    // Call Motoko backend to register user (implement registerUser in Motoko)
+    const ok = await ipblock_backend.registerUser(email, password);
+    if (ok) {
+      setShowRegister(false);
+      setEmail(email);
+      alert("Registration successful, please login.");
+    } else {
+      alert("Registration failed. Email may already be used.");
     }
   }
 
@@ -169,29 +203,36 @@ function App() {
     );
   }
 
-  if (!loggedIn) {
-    return (
-      <Login
-        email={email}
-        setEmail={setEmail}
-        password={password}
-        setPassword={setPassword}
-        handleEmailLogin={handleEmailLogin}
-        handleIIlogin={handleIIlogin}
-      />
-    );
-  }
-
   return (
-    <History
-      history={history}
-      anomalies={anomalies}
-      showAnomalyDetail={showAnomalyDetail}
-      setShowAnomalyDetail={setShowAnomalyDetail}
-      setShowAudit={setShowAudit}
-      setShowAdmin={setShowAdmin}
-      setLoggedIn={setLoggedIn}
-    />
+    <>
+      <Header />
+      {showRegister ? (
+        <Register
+          setShowRegister={setShowRegister}
+          handleRegister={handleRegister}
+        />
+      ) : !loggedIn ? (
+        <Login
+          email={email}
+          setEmail={setEmail}
+          password={password}
+          setPassword={setPassword}
+          handleEmailLogin={handleEmailLogin}
+          handleIIlogin={handleIIlogin}
+          setShowRegister={setShowRegister}
+        />
+      ) : (
+        <History
+          history={history}
+          anomalies={anomalies}
+          showAnomalyDetail={showAnomalyDetail}
+          setShowAnomalyDetail={setShowAnomalyDetail}
+          setShowAudit={setShowAudit}
+          setShowAdmin={setShowAdmin}
+          setLoggedIn={setLoggedIn}
+        />
+      )}
+    </>
   );
 }
 
