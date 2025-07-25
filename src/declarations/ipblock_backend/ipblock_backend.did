@@ -1,0 +1,47 @@
+type LoginLog = 
+ record {
+   device: text;
+   email: text;
+   geo: Geo;
+   ip: text;
+   isAnomalous: bool;
+   "principal": text;
+   timestamp: nat;
+ };
+type LogEntry = 
+ record {
+   device: text;
+   ip: text;
+   isAnomalous: bool;
+   location: text;
+   timestamp: int;
+ };
+type IPBlock = 
+ service {
+   adminLogin: (username: text, password: text) -> (bool) query;
+   getAllAnomalies: () -> (vec LoginLog) query;
+   getAnomalyCount: () -> (nat) query;
+   getAnomalyReports: () -> (vec LoginLog) query;
+   getLoginHistory: (userPrincipal: principal) -> (vec LogEntry) query;
+   getTotalLogs: () -> (nat) query;
+   getTotalUsers: () -> (nat) query;
+   getUserLogs: (email: text, "principal": text) -> (vec LoginLog) query;
+   isAnomalousLogin: (newIP: text, previousIPs: vec text) -> (bool) query;
+   log_login: (log: LoginLog) -> ();
+   notifyAnomaly: (user: principal, message: text) -> (text);
+   queryPublicLogs: ("principal": text) -> (vec LoginLog) query;
+   recordLogin: (userPrincipal: principal, ip: text, location: text, device:
+    text, timestamp: int) -> ();
+   registerUser: (email: text, password: text) -> (bool);
+   uploadToIPFS: (logData: text) -> (text);
+   validateUser: (email: text, password: text) -> (bool);
+ };
+type Geo = 
+ record {
+   city: text;
+   country: text;
+   isp: text;
+   lat: float64;
+   lon: float64;
+ };
+service : () -> IPBlock
