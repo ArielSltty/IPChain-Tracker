@@ -1,0 +1,26 @@
+{
+  "canisters": {
+    "ipblock_backend": {
+      "main": "src/ipblock_backend/main.mo",
+      "type": "motoko"
+    },
+    "ipblock_frontend": {
+      "dependencies": [
+        "ipblock_backend"
+      ],
+      "source": [
+        "src/ipblock_frontend/dist"
+      ],
+      "type": "assets",
+      "workspace": "ipblock_frontend"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
