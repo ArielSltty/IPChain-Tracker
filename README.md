@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="src/ipblock_frontend/dist/assets/file.svg" alt="IPTrackChain Logo" width="120" />
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/file.svg" alt="IPTrackChain Logo" width="120" />
 </p>
 
 # IPTrackChain
@@ -79,6 +79,6 @@ MIT
 ## Demo
 
 <p align="center">
-  <img src="src/ipblock_frontend/src/assets/screenshot (138).png" alt="IPTrackChain Demo 1" width="400" />
-  <img src="src/ipblock_frontend/src/assets/screenshot (139).png" alt="IPTrackChain Demo 2" width="400" />
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/Screenshot%20(138).png" width="400" />
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/Screenshot%20(139).png" width="400" />
 </p>
