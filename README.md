@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/file.svg" alt="IPTrackChain Logo" width="120" />
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/25b2544e7f02bd5161fa4b6b4ded6462951b867c/src/ipblock_frontend/src/assets/logo.jpg" alt="IPChain-Tracker Logo" width="200" />
 </p>
 
 # IPTrackChain
@@ -67,12 +67,6 @@ Follow these steps to set up and run IPTrackChain locally:
 - Use Linux-style paths (e.g. `/home/youruser/ipblock`).
 - If you see errors about missing files or directories, check your current directory with `pwd` and use `ls` to verify structure.
 - If you get permission errors, try running `dfx` commands with `sudo` (not usually needed, but can help if you installed dfx with sudo).
-
----
-
-## License
-
-MIT
 
 ---
 
