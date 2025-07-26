@@ -1,77 +1,84 @@
-# `ipblock`
+<p align="center">
+  <img src="src/ipblock_frontend/dist/assets/file.svg" alt="IPTrackChain Logo" width="120" />
+</p>
 
-Welcome to your new `ipblock` project and to the Internet Computer development community. By default, creating a new project adds this README and some template files to your project directory. You can edit these template files to customize your project and to include your own code to speed up the development cycle.
+# IPTrackChain
 
-To get started, you might want to explore the project directory structure and the default configuration file. Working with this project in your development environment will not affect any production deployment or identity tokens.
+**IPTrackChain** is a modern decentralized application (dApp) built on the Internet Computer Protocol (ICP) blockchain. It enables users to track, audit, and secure their login IP activity with full transparency and robust data security.
 
-To learn more before you start working with `ipblock`, see the following documentation available online:
+## How Does IPTrackChain Work?
 
-- [Quick Start](https://internetcomputer.org/docs/current/developer-docs/setup/deploy-locally)
-- [SDK Developer Tools](https://internetcomputer.org/docs/current/developer-docs/setup/install)
-- [Motoko Programming Language Guide](https://internetcomputer.org/docs/current/motoko/main/motoko)
-- [Motoko Language Quick Reference](https://internetcomputer.org/docs/current/motoko/main/language-manual)
+- **Seamless Web3 Login:** Users connect using Internet Identity, ensuring secure and passwordless authentication.
+- **Automatic Logging:** Every login event records your IP address, location, timestamp, and device information directly on the ICP blockchain.
+- **Audit Trail & Visualization:** Instantly audit your login history and visualize activity on a global map.
+- **Anomaly Detection:** The system automatically flags suspicious logins (e.g., drastic location/IP changes) as anomalies.
 
-If you want to start working on your project right away, you might want to try the following commands:
+## Key Advantages
 
-```bash
-cd ipblock/
-dfx help
-dfx canister --help
-```
+- 🔒 **Strong Data Security:** All login data is stored immutably on the ICP blockchain and cannot be altered or deleted.
+- 🛡️ **Privacy by Design:** Only you can access your login history unless you share your principal.
+- 🌐 **Fully Decentralized:** No central servers—everything runs on smart contracts.
+- ⚡ **Early Anomaly Alerts:** Get notified of unusual login activity in real time.
+- 🛰️ **Global Visualization:** See your login activity mapped worldwide.
 
-## Running the project locally
+---
 
-If you want to test your project locally, you can use the following commands:
+## How to Run This Application
 
-```bash
-# Starts the replica, running in the background
-dfx start --background
+Follow these steps to set up and run IPTrackChain locally:
 
-# Deploys your canisters to the replica and generates your candid interface
-dfx deploy
-```
+1. **Clone the repository and enter the project directory:**
+   ```bash
+   cd ipblock
+   ```
 
-Once the job completes, your application will be available at `http://localhost:4943?canisterId={asset_canister_id}`.
+2. **Clean up previous builds (optional but recommended):**
+   ```bash
+   dfx stop
+   dfx cache delete
+   dfx start --clean --background
+   ```
 
-If you have made changes to your backend canister, you can generate a new candid interface with
+3. **Install dependencies:**
+   ```bash
+   npm install
+   cd src/ipblock_frontend
+   npm install
+   cd ../..
+   ```
 
-```bash
-npm run generate
-```
+4. **Deploy canisters (backend & frontend):**
+   ```bash
+   dfx deploy
+   ```
 
-at any time. This is recommended before starting the frontend development server, and will be run automatically any time you run `dfx deploy`.
+5. **Start the frontend development server:**
+   ```bash
+   cd src/ipblock_frontend
+   npm run start
+   ```
+   Open your browser and go to: [http://localhost:3000](http://localhost:3000)
 
-If you are making frontend changes, you can start a development server with
+---
 
-```bash
-npm start
-```
+## Notes for WSL Ubuntu Users
 
-Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
+- Run all commands from your WSL terminal (not Windows CMD/PowerShell).
+- Use Linux-style paths (e.g. `/home/youruser/ipblock`).
+- If you see errors about missing files or directories, check your current directory with `pwd` and use `ls` to verify structure.
+- If you get permission errors, try running `dfx` commands with `sudo` (not usually needed, but can help if you installed dfx with sudo).
 
-### Note on frontend environment variables
+---
 
-If you are hosting frontend code somewhere without using DFX, you may need to make one of the following adjustments to ensure your project does not fetch the root key in production:
+## License
 
-- set`DFX_NETWORK` to `ic` if you are using Webpack
-- use your own preferred method to replace `process.env.DFX_NETWORK` in the autogenerated declarations
-  - Setting `canisters -> {asset_canister_id} -> declarations -> env_override to a string` in `dfx.json` will replace `process.env.DFX_NETWORK` with the string in the autogenerated declarations
-- Write your own `createActor` constructor
+MIT
 
-# IPTrackChain – Aplikasi Pelacak Lokasi & Aktivitas IP Berbasis Blockchain ICP
+---
 
-## Fitur
-- **Login Web3** (Internet Identity & Email)
-- **Audit Trail**: Riwayat login & aktivitas IP
-- **Deteksi IP Anomali**: Peringatan jika ada login mencurigakan
-- **Notifikasi**: Informasi login anomali ke user
-- **Penyimpanan Immutable**: Data login tersimpan di smart contract ICP
+## Demo
 
-## Cara Install & Jalankan
-
-```bash
-npm install
-dfx start --background
-dfx deploy
-npm run dev
-```
+<p align="center">
+  <img src="src/ipblock_frontend/src/assets/screenshot (138).png" alt="IPTrackChain Demo 1" width="400" />
+  <img src="src/ipblock_frontend/src/assets/screenshot (139).png" alt="IPTrackChain Demo 2" width="400" />
+</p>

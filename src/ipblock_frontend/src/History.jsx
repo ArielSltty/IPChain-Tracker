@@ -2,7 +2,7 @@ import React from 'react';
 import GeoIPMap from './GeoIPMap';
 
 // Example History component usage:
-function History({ history, anomalies, showAnomalyDetail, setShowAnomalyDetail, setShowAudit, setShowAdmin, setLoggedIn }) {
+function History({ history, setShowAudit, setLoggedIn }) {
   return (
     <main>
       <h2>Login History</h2>
@@ -35,7 +35,6 @@ function History({ history, anomalies, showAnomalyDetail, setShowAnomalyDetail, 
       )}
       <div style={{display: 'flex', justifyContent: 'space-between', marginTop: '2em'}}>
         <button onClick={() => setShowAudit(true)}>Audit Trail</button>
-        <button onClick={() => setShowAdmin(true)}>Admin</button>
         <button onClick={() => setLoggedIn(false)}>Logout</button>
       </div>
     </main>

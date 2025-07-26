@@ -25,27 +25,8 @@ actor class IPBlock() = this {
     isAnomalous : Bool;
   };
 
-  type LogEntry = {
-    ip : Text;
-    location : Text;
-    device : Text;
-    timestamp : Int;
-    isAnomalous : Bool;
-  };
-
-  type User = {
-    email : Text;
-    password : Text;
-  };
-
   // Storage
   var logsMap = TrieMap.TrieMap<Text, Buffer.Buffer<LoginLog>>(Text.equal, Text.hash);
-  var userLogs = TrieMap.TrieMap<Principal, Buffer.Buffer<LogEntry>>(Principal.equal, Principal.hash);
-  var users = TrieMap.TrieMap<Text, User>(Text.equal, Text.hash);
-
-  // Admin credentials
-  let adminUser : Text = "admin";
-  let adminPass : Text = "admin123";
 
   // Login logging function
   public shared func log_login(log : LoginLog) : async () {
@@ -106,11 +87,6 @@ actor class IPBlock() = this {
     result;
   };
 
-  // Admin functions
-  public query func adminLogin(username : Text, password : Text) : async Bool {
-    username == adminUser and password == adminPass;
-  };
-
   public query func getTotalUsers() : async Nat {
     logsMap.size();
   };
@@ -147,51 +123,6 @@ actor class IPBlock() = this {
     result;
   };
 
-  // User login tracking
-  public shared func recordLogin(userPrincipal : Principal, ip : Text, location : Text, device : Text, timestamp : Int) : async () {
-    let buf = switch (userLogs.get(userPrincipal)) {
-      case (?b) b;
-      case null Buffer.Buffer<LogEntry>(0);
-    };
-    
-    let prevIPs = Buffer.Buffer<Text>(0);
-    let size = buf.size();
-    let start = if (size > 5) size - 5 else 0;
-    
-    if (size > 0 and start <= size - 1) {
-      let end = size - 1;
-      for (i in Iter.range(start, end)) {
-        prevIPs.add(buf.get(i).ip);
-      };
-    };
-    
-    let anomalous = await isAnomalousLogin(ip, Buffer.toArray(prevIPs));
-    let entry : LogEntry = {
-      ip = ip;
-      location = location;
-      device = device;
-      timestamp = timestamp;
-      isAnomalous = anomalous;
-    };
-    
-    buf.add(entry);
-    userLogs.put(userPrincipal, buf);
-  };
-
-  public shared query func getLoginHistory(userPrincipal : Principal) : async [LogEntry] {
-    return switch (userLogs.get(userPrincipal)) {
-      case (?buf) Buffer.toArray(buf);
-      case null [];
-    };
-  };
-
-  public shared query func isAnomalousLogin(newIP : Text, previousIPs : [Text]) : async Bool {
-    for (ip in previousIPs.vals()) {
-      if (ip == newIP) return false;
-    };
-    true;
-  };
-
   // Notification system
   public shared func notifyAnomaly(user : Principal, message : Text) : async Text {
     "Notifikasi untuk " # Principal.toText(user) # ": " # message;
@@ -199,22 +130,5 @@ actor class IPBlock() = this {
 
   public shared func uploadToIPFS(logData : Text) : async Text {
     "ipfs://dummyhash/" # logData;
-  };
-
-  // User management
-  public shared func registerUser(email : Text, password : Text) : async Bool {
-    if (users.get(email) != null) {
-      false;
-    } else {
-      users.put(email, { email = email; password = password });
-      true;
-    };
-  };
-
-  public shared func validateUser(email : Text, password : Text) : async Bool {
-    switch (users.get(email)) {
-      case (?user) user.password == password;
-      case null false;
-    };
   };
 };

@@ -9,7 +9,7 @@
 
 # DFX & ICP
 .dfx/
-**/declarations/
+!**/declarations/
 
 # Rust
 target/

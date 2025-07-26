@@ -57,14 +57,14 @@ body[data-theme="dark"] {
   z-index: 10;
 }
 
-.logo-img {
+.logo-img, .hero-logo {
+  background: #fff;
   height: 44px;
   width: 44px;
   object-fit: contain;
   border-radius: 12px;
   margin-right: 0.7em;
   box-shadow: 0 2px 8px 0 rgba(0,0,0,0.10);
-  background: #fff;
 }
 
 .brand-title {
@@ -232,20 +232,164 @@ th {
   }
 }
 
-@media (max-width: 600px) {
-  main {
-    max-width: 98vw;
-    padding: 1em 0.5em;
-  }
-  .main-header {
+.connect-btn, .hero-connect {
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+  color: #fff;
+  border: none;
+  border-radius: 16px;
+  padding: 1em 2.2em;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 0.5em 0;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.07);
+  letter-spacing: 0.5px;
+}
+.connect-btn:hover, .hero-connect:hover {
+  background: linear-gradient(90deg, var(--primary-dark) 0%, var(--primary) 100%);
+  transform: translateY(-2px) scale(1.04);
+  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.13);
+  color: #ffd700;
+}
+
+.landing {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2.5em 1em 1em 1em;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 2.5em;
+  padding: 2em 0 1.5em 0;
+}
+.hero-logo {
+  width: 80px;
+  height: 80px;
+  border-radius: 18px;
+  margin-bottom: 1em;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.10);
+  background: #fff;
+}
+.hero h1 {
+  font-size: 2.8em;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 0.3em;
+  letter-spacing: 1px;
+}
+.slogan {
+  font-size: 1.25em;
+  color: var(--text-secondary);
+  margin-bottom: 1.5em;
+}
+
+.features {
+  display: flex;
+  gap: 2em;
+  justify-content: center;
+  margin-bottom: 2.5em;
+  flex-wrap: wrap;
+}
+.feature-card {
+  background: var(--main-surface);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 2em 1.5em 1.5em 1.5em;
+  min-width: 220px;
+  max-width: 300px;
+  flex: 1 1 220px;
+  text-align: center;
+  margin-bottom: 1em;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.feature-card:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 6px 24px 0 rgba(0,0,0,0.13);
+}
+.feature-icon {
+  font-size: 2.2em;
+  margin-bottom: 0.5em;
+  display: block;
+}
+
+.faq {
+  margin: 2.5em 0 1.5em 0;
+}
+.faq h2 {
+  text-align: center;
+  color: var(--primary);
+  margin-bottom: 1em;
+}
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2em;
+  max-width: 700px;
+  margin: 0 auto;
+}
+.faq-item {
+  background: var(--main-surface-dark);
+  color: var(--text-main);
+  border-radius: 12px;
+  padding: 1.2em 1.5em;
+  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+}
+
+.landing-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2em;
+  margin: 2.5em 0 0 0;
+  padding: 1.5em 0 0 0;
+  border-top: 1px solid var(--border);
+}
+.icp-logo {
+  height: 36px;
+  width: auto;
+  vertical-align: middle;
+  filter: grayscale(0.2);
+}
+.github-link {
+  color: var(--primary);
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.github-link:hover {
+  color: #23293a;
+}
+
+$primary: #00bcd4;
+$sidebar-bg-dark: #181c24;
+$sidebar-bg-light: #f7f7fa;
+$main-bg-dark: #23272f;
+$main-bg-light: #fff;
+$text-dark: #eaeaea;
+$text-light: #222;
+$faq-bg-dark: #2c313a;
+$faq-bg-light: #f2f2f7;
+$faq-border-dark: #444;
+$faq-border-light: #ddd;
+
+@media (max-width: 900px) {
+  .features {
     flex-direction: column;
-    gap: 0.5em;
-    padding: 1em 0.5em;
+    align-items: center;
+    gap: 1.2em;
   }
-  .logo-img {
-    margin: 0 auto;
+}
+@media (max-width: 600px) {
+  .landing {
+    padding: 1em 0.2em;
   }
-  table {
-    font-size: 0.85em;
+  .hero h1 {
+    font-size: 2em;
+  }
+  .feature-card {
+    padding: 1.2em 0.7em;
   }
 }
