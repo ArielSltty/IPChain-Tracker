@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/25b2544e7f02bd5161fa4b6b4ded6462951b867c/src/ipblock_frontend/src/assets/logo.jpg" alt="IPChain-Tracker Logo" width="200" />
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/main/src/ipblock_frontend/src/assets/logo.jpg" alt="IPChain-Tracker Logo" style="width:400px; max-width:100%; height:auto;" />
 </p>
 
 # IPTrackChain
