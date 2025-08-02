@@ -1,78 +1,73 @@
+<h1 align="center" style="display: flex; align-items: center; justify-content: center; gap: 16px;">
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/main/src/ipblock_frontend/src/assets/logo.jpg" alt="IPTrackChain" style="height: 80px; border-radius: 8px;" />
+  <span style="font-size: 32px; color: gray;">×</span>
+  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/main/src/ipblock_frontend/src/assets/logo2.svg" alt="ICP Blockchain" style="height: 48px;" />
+</h1>
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/main/src/ipblock_frontend/src/assets/logo.jpg" alt="IPChain-Tracker Logo" style="width:400px; max-width:100%; height:auto;" />
+  <b>Next-gen decentralized login IP tracker with anomaly alerts and full audit history — built on Internet Computer Protocol.</b>
 </p>
 
-# IPTrackChain
-
-**IPTrackChain** is a modern decentralized application (dApp) built on the Internet Computer Protocol (ICP) blockchain. It enables users to track, audit, and secure their login IP activity with full transparency and robust data security.
-
-## How Does IPTrackChain Work?
-
-- **Seamless Web3 Login:** Users connect using Internet Identity, ensuring secure and passwordless authentication.
-- **Automatic Logging:** Every login event records your IP address, location, timestamp, and device information directly on the ICP blockchain.
-- **Audit Trail & Visualization:** Instantly audit your login history and visualize activity on a global map.
-- **Anomaly Detection:** The system automatically flags suspicious logins (e.g., drastic location/IP changes) as anomalies.
-
-## Key Advantages
-
-- 🔒 **Strong Data Security:** All login data is stored immutably on the ICP blockchain and cannot be altered or deleted.
-- 🛡️ **Privacy by Design:** Only you can access your login history unless you share your principal.
-- 🌐 **Fully Decentralized:** No central servers—everything runs on smart contracts.
-- ⚡ **Early Anomaly Alerts:** Get notified of unusual login activity in real time.
-- 🛰️ **Global Visualization:** See your login activity mapped worldwide.
+<p align="center">
+  <img src="https://img.shields.io/github/license/ArielSltty/IPChain-Tracker?style=for-the-badge" />
+  <img src="https://img.shields.io/github/languages/top/ArielSltty/IPChain-Tracker?style=for-the-badge" />
+  <img src="https://img.shields.io/github/repo-size/ArielSltty/IPChain-Tracker?style=for-the-badge" />
+</p>
 
 ---
 
-## How to Run This Application
+## 🚀 Overview
 
-Follow these steps to set up and run IPTrackChain locally:
+**IPTrackChain** is a powerful and modern decentralized application (dApp) that tracks, audits, and alerts user login IP activity, stored immutably on the Internet Computer blockchain. It prioritizes security, transparency, and user privacy.
 
-1. **Clone the repository and enter the project directory:**
-   ```bash
-   cd ipblock
-   ```
+### 🛠️ Built With
 
-2. **Clean up previous builds (optional but recommended):**
-   ```bash
-   dfx stop
-   dfx cache delete
-   dfx start --clean --background
-   ```
-
-3. **Install dependencies:**
-   ```bash
-   npm install
-   cd src/ipblock_frontend
-   npm install
-   cd ../..
-   ```
-
-4. **Deploy canisters (backend & frontend):**
-   ```bash
-   dfx deploy
-   ```
-
-5. **Start the frontend development server:**
-   ```bash
-   cd src/ipblock_frontend
-   npm run start
-   ```
-   Open your browser and go to: [http://localhost:3000](http://localhost:3000)
+- 🌐 **ICP Blockchain (DFINITY)**
+- 🔐 **Internet Identity (WebAuthn Login)**
+- ⚛️ **React + Tailwind CSS**
+- 🧠 **Smart Canisters (Motoko)**
+- 📍 **IP + Location Logging with Map Visualization**
+- ⚠️ **Real-time Anomaly Detection System**
 
 ---
 
-## Notes for WSL Ubuntu Users
+## 🔍 Key Features
 
-- Run all commands from your WSL terminal (not Windows CMD/PowerShell).
-- Use Linux-style paths (e.g. `/home/youruser/ipblock`).
-- If you see errors about missing files or directories, check your current directory with `pwd` and use `ls` to verify structure.
-- If you get permission errors, try running `dfx` commands with `sudo` (not usually needed, but can help if you installed dfx with sudo).
+✅ **Secure Web3 Login**  
+Connect via Internet Identity — no password needed.
+
+✅ **IP Tracking & History**  
+Records IP address, timestamp, and device info on every login.
+
+✅ **Global Map Visualization**  
+Login events displayed on an interactive world map.
+
+✅ **Anomaly Detection Alerts**  
+Detects suspicious behavior like sudden IP/location change.
+
+✅ **Audit Trail**  
+Easily browse and review immutable login records.
+
+✅ **Decentralized Backend**  
+All logic and data hosted on smart canisters — no central server.
 
 ---
 
-## Demo
+## 🧪 Live Demo
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/Screenshot%20(138).png" width="400" />
   <img src="https://raw.githubusercontent.com/ArielSltty/IPChain-Tracker/774a87849e33572978f2ffc991d16a5206f83224/src/ipblock_frontend/src/assets/Screenshot%20(139).png" width="400" />
 </p>
+
+---
+
+## 🧭 Getting Started
+
+To run this project locally on your machine:
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/ArielSltty/IPChain-Tracker.git
+cd ipblock
