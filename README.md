@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  <b>Next-gen decentralized login IP tracker with anomaly alerts and full audit history — built on Internet Computer Protocol.</b>
+  <b>Next-gen decentralized login IP tracker with anomaly alerts and full audit history built on Internet Computer Protocol.</b>
 </p>
 
 <p align="center">
@@ -34,7 +34,7 @@
 ## 🔍 Key Features
 
 ✅ **Secure Web3 Login**  
-Connect via Internet Identity — no password needed.
+Connect via Internet Identity no password needed.
 
 ✅ **IP Tracking & History**  
 Records IP address, timestamp, and device info on every login.
@@ -49,7 +49,7 @@ Detects suspicious behavior like sudden IP/location change.
 Easily browse and review immutable login records.
 
 ✅ **Decentralized Backend**  
-All logic and data hosted on smart canisters — no central server.
+All logic and data hosted on smart canisters no central server.
 
 ---
 
