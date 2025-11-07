@@ -8,13 +8,6 @@
   <b>Next-gen decentralized login IP tracker with anomaly alerts and full audit history built on Internet Computer Protocol.</b>
 </p>
 
-<p align="center">
-  <img src="https://img.shields.io/github/license/ArielSltty/IPChain-Tracker?style=for-the-badge" />
-  <img src="https://img.shields.io/github/languages/top/ArielSltty/IPChain-Tracker?style=for-the-badge" />
-  <img src="https://img.shields.io/github/repo-size/ArielSltty/IPChain-Tracker?style=for-the-badge" />
-</p>
-
----
 
 ## 🚀 Overview
 
